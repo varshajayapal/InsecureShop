@@ -1,12 +1,15 @@
 package com.insecureshop
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -21,8 +24,10 @@ class LoginActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
         mBinding =
             DataBindingUtil.setContentView<ActivityLoginBinding>(this, R.layout.activity_login)
+        warnIfThirdPartyImeActive()
         when {
             else -> {
                 requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE), 100)
@@ -32,13 +37,20 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
+    private fun warnIfThirdPartyImeActive() {
+        val currentIme = Settings.Secure.getString(
+            contentResolver, Settings.Secure.DEFAULT_INPUT_METHOD
+        ) ?: return
+        val systemPackages = setOf("com.android.inputmethod.latin", "com.google.android.inputmethod.latin")
+        val activePackage = currentIme.substringBefore("/")
+        if (activePackage !in systemPackages) {
+            AlertDialog.Builder(this).setTitle("Security Warning").setMessage("A third-party keyboard is active. Sensitive data may be at risk.").setPositiveButton("Continue") { dialog, _ -> dialog.dismiss() }.show()
+        }
+    }
+
     fun onLogin(view: View) {
         val username = mBinding.edtUserName.text.toString()
         val password = mBinding.edtPassword.text.toString()
-
-        Log.d("userName", username)
-        Log.d("password", password)
-
 
         var auth = Util.verifyUserNamePassword(username, password)
         if (auth) {

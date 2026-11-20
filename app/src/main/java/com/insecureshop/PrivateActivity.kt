@@ -2,6 +2,7 @@ package com.insecureshop
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.WindowManager
 import android.webkit.WebView
 import androidx.appcompat.app.AppCompatActivity
 import com.insecureshop.util.Prefs
@@ -15,6 +16,7 @@ class PrivateActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
         setContentView(R.layout.activity_private)
         setSupportActionBar(toolbar)
         title = getString(R.string.webview)
@@ -25,7 +27,7 @@ class PrivateActivity : AppCompatActivity() {
         webview.settings.loadWithOverviewMode = true
         webview.settings.useWideViewPort = true
         webview.settings.userAgentString = USER_AGENT
-        webview.settings.allowUniversalAccessFromFileURLs = true
+        webview.settings.allowUniversalAccessFromFileURLs = false
         var data = intent.getStringExtra("url")
         if (data == null) {
             data = "https://www.insecureshopapp.com"
