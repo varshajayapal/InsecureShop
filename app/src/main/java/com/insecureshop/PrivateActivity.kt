@@ -18,6 +18,7 @@ class PrivateActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
         setContentView(R.layout.activity_private)
+        window.decorView.rootView.setFilterTouchesWhenObscured(true)
         setSupportActionBar(toolbar)
         title = getString(R.string.webview)
 
