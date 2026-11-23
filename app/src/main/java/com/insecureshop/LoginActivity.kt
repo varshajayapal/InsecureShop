@@ -48,6 +48,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    // QA manual edit: this comment must survive later autofix runs
     fun onLogin(view: View) {
         val username = mBinding.edtUserName.text.toString()
         val password = mBinding.edtPassword.text.toString()
