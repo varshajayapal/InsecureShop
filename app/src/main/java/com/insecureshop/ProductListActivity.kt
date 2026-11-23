@@ -2,6 +2,7 @@ package com.insecureshop
 
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.Menu
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.insecureshop.broadcast.ProductDetailBroadCast
 import com.insecureshop.util.Prefs
+import com.insecureshop.util.SecurityUtils
 import com.insecureshop.util.Util
 import kotlinx.android.synthetic.main.activity_product_list.*
 
@@ -34,6 +36,13 @@ class ProductListActivity : AppCompatActivity() {
         recyclerview.adapter = productAdapter
         productAdapter.productList = Util.getProductsPrefs(this)
         productAdapter.notifyDataSetChanged()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if ((applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) == 0 && SecurityUtils.isAdbEnabled(this)) {
+            finishAffinity()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
