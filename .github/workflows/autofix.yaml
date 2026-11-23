@@ -12,7 +12,7 @@ permissions:
   pull-requests: write
 
 env:
-  APPKNOX_ACCESS_TOKEN: 12113443ec9b5c141adc459f9afec11830d709d4
+  APPKNOX_ACCESS_TOKEN: 0000000000000000000000000000000000000000
   APPKNOX_API_HOST: https://autofix.staging.appknox.io/
 
 jobs:
