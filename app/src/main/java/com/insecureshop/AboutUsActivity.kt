@@ -5,6 +5,7 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.insecureshop.util.Prefs
 import kotlinx.android.synthetic.main.activity_about_us.*
 
@@ -18,7 +19,7 @@ class AboutUsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_about_us)
         window.decorView.rootView.filterTouchesWhenObscured = true
         receiver = CustomReceiver()
-        registerReceiver(receiver, IntentFilter("com.insecureshop.CUSTOM_INTENT"))
+        ContextCompat.registerReceiver(this, receiver, IntentFilter("com.insecureshop.CUSTOM_INTENT"), ContextCompat.RECEIVER_NOT_EXPORTED)
     }
 
     override fun onDestroy() {
