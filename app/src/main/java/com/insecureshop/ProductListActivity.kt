@@ -8,6 +8,7 @@ import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.insecureshop.broadcast.ProductDetailBroadCast
 import com.insecureshop.util.Prefs
@@ -30,7 +31,7 @@ class ProductListActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val intentFilter = IntentFilter("com.insecureshop.action.PRODUCT_DETAIL")
-        registerReceiver(productDetailBroadCast, intentFilter)
+        ContextCompat.registerReceiver(this, productDetailBroadCast, intentFilter, ContextCompat.RECEIVER_NOT_EXPORTED)
         val productAdapter = ProductAdapter()
         recyclerview.layoutManager = GridLayoutManager(applicationContext, 2)
         recyclerview.adapter = productAdapter
